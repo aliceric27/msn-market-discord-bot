@@ -1,4 +1,4 @@
-# 楓之谷宇宙市場助手 (MSU Market Helper)
+# 楓之谷宇宙市場DC機器人 (MSN Market Discord Bot)
 
 這是一個專為楓之谷宇宙(MapleStory Universe)遊戲設計的Discord機器人，能夠協助玩家快速查詢遊戲市場上的物品價格資訊。
 
