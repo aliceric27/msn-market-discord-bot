@@ -37,10 +37,18 @@
    - `CLIENT_ID`: Discord 應用程式的客戶端 ID
    - `GUILD_ID`: Discord 伺服器的 ID
 
-4. 啟動機器人
+4. 伺服器新增指令
+   ```
+   node deploy-command.js
+   ```
+   使用此 script 可以快速在設定 GUILD_ID 的伺服器新增指令
+
+5. 啟動機器人
    ```
    npm start
    ```
 
+## 授權
 
+本專案採用 MIT 授權，詳情請參閱 [LICENSE](LICENSE) 文件。
 

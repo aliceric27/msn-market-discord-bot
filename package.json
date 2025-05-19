@@ -7,8 +7,8 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "LaiYuYang",
+  "license": "MIT",
   "dependencies": {
     "discord.js": "^14.19.3",
     "dotenv": "^16.5.0",
