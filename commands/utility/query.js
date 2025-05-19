@@ -69,9 +69,16 @@ module.exports = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome'
       },
       body: JSON.stringify({
+        "filter": {
+          "name": interaction.options.getString('裝備名稱') || "",
+          "category": interaction.options.getString('類型') || "",
+          "subCategory": interaction.options.getString('子分類') || "",
+          "minPrice": interaction.options.getNumber('最小價格') || 0,
+          "maxPrice": interaction.options.getNumber('最大價格') || 10000000000,
+        },
         "paginationParam": {
             "pageNo": 1,
-            "pageSize": 10
+            "pageSize": 5
         },
         "sorting":"ExploreSorting_LOWEST_PRICE",
       })
