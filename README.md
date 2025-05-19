@@ -48,6 +48,12 @@
    npm start
    ```
 
+## 贊助
+
+如果你喜歡這個機器人，歡迎打賞一些不要的物資到我的 Henesys 錢包
+
+地址: `0x73EAB18B9bbC0D509157017ea38B0ABD8166dd53`
+
 ## 授權
 
 本專案採用 MIT 授權，詳情請參閱 [LICENSE](LICENSE) 文件。
