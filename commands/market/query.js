@@ -174,6 +174,48 @@ module.exports = {
 	},
 	async execute(interaction) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    // 取得各選項的值
+
+    const equipName = interaction.options.getString('裝備名稱');
+    const equipType = interaction.options.getString('類型');
+    const subType1 = interaction.options.getString('子分類-1') || '00';
+    const subType2 = interaction.options.getString('子分類-2') || '00';
+    const minPrice = interaction.options.getNumber('最小價格') || 0;
+    const maxPrice = interaction.options.getNumber('最大價格') || 10000000000;
+
+    const filter = {
+      categoryNo: 0,
+      potential: {
+        min: 0,
+        max: 4
+      },
+      bonusPotential: {
+        min: 0,
+        max: 4
+      },
+      starforce: {
+        min: 0,
+        max: 25
+      },
+      level: {
+        min: 0,
+        max: 250
+      },
+      pirce: {
+        min: minPrice,
+        max: maxPrice
+      }
+    }
+
+    if (equipName) {
+      filter.name = equipName;
+    }
+
+    if (equipType) {
+      const categoryNoString = "1000" + equipType + subType1 + subType2;
+      filter.categoryNo = parseInt(categoryNoString);
+    }
+
     const {
       statusCode,
       body
@@ -186,9 +228,10 @@ module.exports = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome'
       },
       body: JSON.stringify({
+        filter,
         "paginationParam": {
-            "pageNo": 1,
-            "pageSize": 5
+          "pageNo": 1,
+          "pageSize": 5
         },
         "sorting":"ExploreSorting_LOWEST_PRICE",
       })
