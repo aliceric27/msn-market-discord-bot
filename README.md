@@ -2,9 +2,6 @@
 
 這是一個專為楓之谷宇宙(MapleStory Universe)遊戲設計的Discord機器人，能夠協助玩家快速查詢遊戲市場上的物品價格資訊。
 
-## 提供指令
-
-- `query` => 指令來查詢市場上最低價格的前五個物品
 
 ## 安裝與設定
 
@@ -34,6 +31,7 @@
 
    - `DISCORD_TOKEN`: Discord 機器人的認證令牌
    - `CLIENT_ID`: Discord 應用程式的客戶端 ID
+   - `PORT`: Web Server 啟用端點
 
 4. 伺服器新增指令
    ```
@@ -45,6 +43,14 @@
    ```
    npm start
    ```
+
+## 功能介紹
+
+### API Endpoint
+- `/health` => 檢查 web server 是否在線
+
+### Discord 指令
+- `/querynfts` => 查詢市場上最低價格的前五個 NFT
 
 ## 贊助
 

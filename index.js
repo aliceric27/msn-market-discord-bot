@@ -1,10 +1,27 @@
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
+const express = require('express');
+const app = express();
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
 // 載入環境變數
 dotenv.config();
+
+app.get('/', (req, res) => {
+  res.send('Discord 機器人正在運行中!');
+});
+
+// 設定健康檢查路由
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'applicate is alive!' });
+});
+
+// 啟動 Express 伺服器
+const PORT = process.env.PORT || 3002;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 // 設定 Discord Bot 客戶端
 const client = new Client({
