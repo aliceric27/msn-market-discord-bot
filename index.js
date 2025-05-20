@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 // 設定健康檢查路由
-app.get('/health', (req, res) => {
+app.get('/healthz', (req, res) => {
   res.status(200).json({ status: 'applicate is alive!' });
 });
 
