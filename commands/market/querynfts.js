@@ -282,5 +282,5 @@ function parseMsnItemsResponse(response) {
 
 function weiToEther(wei) {
   const ether = wei / 1e18;
-  return ether.toString().trimEnd("0");
+  return ether.toFixed(4).toString().trimEnd("0");
 }
