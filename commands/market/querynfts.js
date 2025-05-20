@@ -237,6 +237,13 @@ module.exports = {
       })
     })
 
+    if (statusCode === 403) {
+      console.error('Error: Forbidden');
+      console.error('Status Code:', statusCode);
+      await interaction.editReply("Cloudflare 機器人檢核失敗，請稍後再試");
+      return;
+    }
+
     if (statusCode !== 200) {
       const errorMessage = await body.text();
       console.error('Error:', errorMessage);
