@@ -2,9 +2,9 @@ const { MessageFlags, SlashCommandBuilder, EmbedBuilder } = require('discord.js'
 const { request } = require('undici');
 
 module.exports = {
-	cooldown: 5,
+	cooldown: 0.5,
 	data: new SlashCommandBuilder()
-		.setName('query')
+		.setName('querynfts')
 		.setDescription('查詢 NFT 最低價格前十筆資料')
 	.addStringOption(option =>
 		option.setName('裝備名稱')

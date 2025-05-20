@@ -30,12 +30,10 @@
    ```
    DISCORD_TOKEN=你的Discord機器人Token
    CLIENT_ID=你的Discord應用程式ID
-   GUILD_ID=你的Discord伺服器ID
    ```
 
    - `DISCORD_TOKEN`: Discord 機器人的認證令牌
    - `CLIENT_ID`: Discord 應用程式的客戶端 ID
-   - `GUILD_ID`: Discord 伺服器的 ID
 
 4. 伺服器新增指令
    ```
