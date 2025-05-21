@@ -4,7 +4,7 @@
   "description": "A Discord bot to help player find the NFTs on the market.",
   "main": "index.js",
   "scripts": {
-    "prestart": "node scripts/deploy-commands.js",
+    "prestart": "npx puppeteer browsers install chrome && node scripts/deploy-commands.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
