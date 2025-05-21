@@ -1,5 +1,49 @@
 const { MessageFlags, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { request } = require('undici');
+const { bypassCloudflare, fetchAPI, cleanup } = require('../../scripts/brower-manager.js');
+
+function parseMsnItemsResponse(data) {
+  const resultData = data.map(item=> ({
+    equipName: item.name,
+    price: weiToEther(item.salesInfo.priceWei),
+    imageUrl: item.imageUrl,
+    tokenId: item.tokenId,
+  }))
+  return resultData;
+}
+
+function weiToEther(wei) {
+  const ether = wei / 1e18;
+  return ether.toFixed(4).toString().trimEnd("0");
+}
+
+async function fetchMarketplaceData(params) {
+  try {
+    // 繞過 Cloudflare 保護示例
+    const result = await bypassCloudflare('https://msu.io', true);
+    console.log('繞過 Cloudflare 結果:', result.success ? '成功' : '失敗');
+    const pageId = result.pageId;
+
+    const apiRequestHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+
+    const apiResult = await fetchAPI(
+      pageId,
+      'https://msu.io/marketplace/api/marketplace/explore/items',
+      'POST',
+      apiRequestHeaders,
+      params);
+
+    console.log('API 請求結果:', apiResult.success ? '成功' : '失敗');
+    const resultData = parseMsnItemsResponse(apiResult.data.items);
+    return resultData;
+  }
+  catch (error) {
+    console.error('示例運行錯誤:', error);
+  }
+}
+
 
 module.exports = {
 	cooldown: 0.5,
@@ -216,44 +260,16 @@ module.exports = {
       filter.categoryNo = parseInt(categoryNoString);
     }
 
-    const {
-      statusCode,
-      body
-    } = await request('https://msu.io/marketplace/api/marketplace/explore/items', {
-      method: 'POST',
-      headers: {
-        'Host': 'msu.io',
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome'
-      },
-      body: JSON.stringify({
+    const resultData = await fetchMarketplaceData(
+      {
         filter,
         "paginationParam": {
           "pageNo": 1,
           "pageSize": 5
         },
         "sorting":"ExploreSorting_LOWEST_PRICE",
-      })
-    })
-
-    if (statusCode === 403) {
-      console.error('Error: Forbidden');
-      console.error('Status Code:', statusCode);
-      await interaction.editReply("Cloudflare 機器人檢核失敗，請稍後再試");
-      return;
-    }
-
-    if (statusCode !== 200) {
-      const errorMessage = await body.text();
-      console.error('Error:', errorMessage);
-      console.error('Status Code:', statusCode);
-      await interaction.editReply("查詢失敗，請稍後再試或聯絡管理員");
-      return;
-    }
-
-    const response = await body.json();
-    const resultData = parseMsnItemsResponse(response);
+      }
+    )
 
     const embes = []
     for (const item of resultData) {
@@ -270,17 +286,3 @@ module.exports = {
 	},
 };
 
-function parseMsnItemsResponse(response) {
-  const resultData = response.items.map(item=> ({
-    equipName: item.name,
-    price: weiToEther(item.salesInfo.priceWei),
-    imageUrl: item.imageUrl,
-    tokenId: item.tokenId,
-  }))
-  return resultData;
-}
-
-function weiToEther(wei) {
-  const ether = wei / 1e18;
-  return ether.toFixed(4).toString().trimEnd("0");
-}
