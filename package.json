@@ -4,8 +4,8 @@
   "description": "A Discord bot to help player find the NFTs on the market.",
   "main": "index.js",
   "scripts": {
-    "browsers-install": "npx puppeteer browsers install",
-    "cmd-deploy": "node scripts/deploy-commands.js",
+    "postinstall": "npx puppeteer browsers install",
+    "poststart": "node scripts/deploy-commands.js",
     "start": "node index.js"
   },
   "author": "LaiYuYang",

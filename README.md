@@ -27,7 +27,6 @@
    ```
    DISCORD_TOKEN=你的Discord機器人Token
    CLIENT_ID=你的Discord應用程式ID
-   CHROME_EXECUTABLE_PATH=npx puppeteer browsers install 執行完後 browser cahce 位置
    ```
 
    - `DISCORD_TOKEN`: Discord 機器人的認證令牌

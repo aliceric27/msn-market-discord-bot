@@ -8,7 +8,6 @@ puppeteer.use(StealthPlugin());
 
 // 配置選項
 const CONFIG = {
-  CHROME_EXECUTABLE_PATH: process.env.CHROME_EXECUTABLE_PATH || null,
   CACHE_PATH: path.join(__dirname, '../caches/'),
   BROWSER_LIFETIME: 1000 * 60 * 60, // 瀏覽器實例生命週期（1小時）
   CACHE_LIFETIME: 1000 * 60 * 30,   // 緩存生命週期（30分鐘）
@@ -50,7 +49,6 @@ class BrowserManager {
       this.browser = await puppeteer.launch({
         headless: true, // 建議開發時設為 false，生產環境可設為 true
         userDataDir: CONFIG.USER_DATA_DIR, // 持久化用戶配置文件
-        execPath: CONFIG.CHROME_EXECUTABLE_PATH, // 指定 Chrome 可執行文件路徑
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
