@@ -47,7 +47,7 @@ class BrowserManager {
 
       console.log('啟動新的瀏覽器實例...');
       this.browser = await puppeteer.launch({
-        headless: false, // 建議開發時設為 false，生產環境可設為 true
+        headless: true, // 建議開發時設為 false，生產環境可設為 true
         userDataDir: CONFIG.USER_DATA_DIR, // 持久化用戶配置文件
         args: [
           '--no-sandbox',
