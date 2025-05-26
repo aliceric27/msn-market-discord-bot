@@ -20,7 +20,7 @@ module.exports = {
 			}
 			return;
 		}
-		else if (!interaction.isChatInputCommand()) {
+		if (!interaction.isChatInputCommand()) {
 			return;
 		}
 
