@@ -1,6 +1,6 @@
 # 楓之谷宇宙市場DC機器人 (MSN Market Discord Bot)
 
-這是一個專為楓之谷宇宙(MapleStory Universe)遊戲設計的Discord機器人，能夠協助玩家快速查詢遊戲市場上的物品價格資訊。
+這是一個專為楓之谷宇宙(MapleStory Universe)遊戲設計的Discord機器人，能夠協助玩家快速查詢遊戲市場上的物品價格資訊以及通報伺服器黑王BOSS出現。
 
 
 ## 安裝與設定
@@ -27,11 +27,21 @@
    ```
    DISCORD_TOKEN=你的Discord機器人Token
    CLIENT_ID=你的Discord應用程式ID
+   PORT=3002
+   GUILD_ID=你的Discord伺服器ID
+   
+   # 黑王通報相關Webhook
+   BOSS_WEBHOOK_URL_1=伺服器1黑王通報的Webhook URL
+   BOSS_WEBHOOK_URL_2=伺服器2黑王通報的Webhook URL
+   BOSS_WEBHOOK_URL_3=伺服器3黑王通報的Webhook URL
+   BOSS_WEBHOOK_URL_4=額外通報頻道的Webhook URL(2服)
    ```
 
    - `DISCORD_TOKEN`: Discord 機器人的認證令牌
    - `CLIENT_ID`: Discord 應用程式的客戶端 ID
    - `PORT`: Web Server 啟用端點
+   - `GUILD_ID`: Discord 伺服器ID
+   - `BOSS_WEBHOOK_URL_*`: 各伺服器黑王通報的Webhook URL
 
 4. 伺服器新增指令
    ```
@@ -51,6 +61,9 @@
 
 ### Discord 指令
 - `/querynfts` => 查詢市場上最低價格的前五個 NFT
+- `/boss1` => 通報1服黑王BOSS
+- `/boss2` => 通報2服黑王BOSS
+- `/boss3` => 通報3服黑王BOSS
 
 ## 贊助
 

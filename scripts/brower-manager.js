@@ -1,8 +1,8 @@
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-const fs = require('fs').promises;
-const path = require('path');
-const crypto = require('crypto');
+const fs = require('node:fs').promises;
+const path = require('node:path');
+const crypto = require('node:crypto');
 
 puppeteer.use(StealthPlugin());
 
@@ -106,8 +106,8 @@ class BrowserManager {
       // 偽裝 Chrome
       window.chrome = {
         runtime: {},
-        loadTimes: function() {},
-        csi: function() {},
+        loadTimes: () => {},
+        csi: () => {},
         app: {}
       };
 
@@ -212,6 +212,7 @@ class CacheManager {
       if (cache.timestamp + CONFIG.CACHE_LIFETIME > Date.now()) {
         console.log(`從緩存獲取數據: ${url}`);
         return cache.data;
+      // biome-ignore lint/style/noUselessElse: <explanation>
       } else {
         console.log(`緩存已過期: ${url}`);
         return null;
@@ -224,7 +225,7 @@ class CacheManager {
     }
   }
 
-  async set(url, params = {}, data) {
+  async set(url, params, data) {
     await this.initPromise;
     const cacheKey = this._getCacheKey(url, params);
     const cachePath = path.join(CONFIG.CACHE_PATH, `${cacheKey}.json`);
@@ -369,7 +370,7 @@ async function fetchAPI(pageId, url, method, headers, params = {}, useCache = fa
     return result;
   }
   catch (error) {
-    console.error(`API 請求錯誤:`, error);
+    console.error('API 請求錯誤:', error);
     return {
       success: false,
       error: error.message

@@ -113,8 +113,6 @@ module.exports = {
       await interaction.respond(choices);
       return;
     }
-    else
-    {
       const cate = interaction.options.get('類型').value;
       const subCate = interaction.options.get('子分類-1')?.value
       const choicesMapping = {
@@ -214,7 +212,6 @@ module.exports = {
         })) || []
       );
       return
-    }
 	},
 	async execute(interaction) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
@@ -256,8 +253,8 @@ module.exports = {
     }
 
     if (equipType) {
-      const categoryNoString = "1000" + equipType + subType1 + subType2;
-      filter.categoryNo = parseInt(categoryNoString);
+      const categoryNoString = `1000${equipType}${subType1}${subType2}`;
+      filter.categoryNo = Number.parseInt(categoryNoString);
     }
 
     const resultData = await fetchMarketplaceData(
