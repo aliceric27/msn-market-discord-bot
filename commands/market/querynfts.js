@@ -1,5 +1,5 @@
 const { MessageFlags, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { bypassCloudflare, fetchAPI, cleanup } = require('../../scripts/brower-manager.js');
+const { browserManager } = require('../../scripts/brower-manager.js');
 
 function parseMsnItemsResponse(data) {
   const resultData = data.map(item=> ({
@@ -16,20 +16,19 @@ function weiToEther(wei) {
   return ether.toFixed(4).toString().trimEnd("0");
 }
 
-async function fetchMarketplaceData(params) {
+async function fetchMarketplaceData(interaction, params) {
   try {
-    // 繞過 Cloudflare 保護示例
-    const result = await bypassCloudflare('https://msu.io', true);
-    console.log('繞過 Cloudflare 結果:', result.success ? '成功' : '失敗');
-    const pageId = result.pageId;
+    await interaction.editReply({ content: "爬蟲開始，虛擬瀏覽器建立中...", ephemeral: true });
+    const page = await browserManager.getPage('https://msu.io');
 
+
+    await interaction.editReply({ content: "發送 API ...", ephemeral: true });
     const apiRequestHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     }
-
-    const apiResult = await fetchAPI(
-      pageId,
+    const apiResult = await browserManager.pageCallApi(
+      page,
       'https://msu.io/marketplace/api/marketplace/explore/items',
       'POST',
       apiRequestHeaders,
@@ -258,6 +257,7 @@ module.exports = {
     }
 
     const resultData = await fetchMarketplaceData(
+      interaction,
       {
         filter,
         "paginationParam": {

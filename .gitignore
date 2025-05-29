@@ -367,8 +367,5 @@ FodyWeavers.xsd
 # Mac file
 .DS_store
 
-# docker env
-.env
-
-# cache
-/caches
+# env files
+*.env
