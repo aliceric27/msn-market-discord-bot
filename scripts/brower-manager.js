@@ -86,9 +86,15 @@ class BrowserManager {
       await page.setUserAgent(userAgent);
       await page.setViewport({ width: 1280, height: 800 });
 
-      // 模仿人類行為
+      // 移除 webdriver 標識
       await page.evaluateOnNewDocument(() => {
-        // 隨機延遲模擬人類行為
+        Object.defineProperty(navigator, 'webdriver', {
+          get: () => undefined,
+        });
+      });
+
+      await page.evaluate(() => {
+        window.scrollBy(Math.random(), window.innerHeight);
         const delay = Math.floor(Math.random() * 2000) + 1000; // 1-3秒
         return new Promise(resolve => setTimeout(resolve, delay));
       });
@@ -101,17 +107,16 @@ class BrowserManager {
         timeout: 15000
       });
 
-      // 檢測是否需要解決 Cloudflare 挑戰
-      const pageUrl = await page.url();
-      const pageContent = await page.content();
-      if (pageUrl.includes('challenge') || pageContent.includes('cf-browser-verification')) {
-        console.log('檢測到 Cloudflare 挑戰，等待解決...');
+      // 檢查是否有 Cloudflare 挑戰
+      const challengeFrame = await page.$('iframe[src*="challenges.cloudflare.com"]');
+      if (challengeFrame) {
+        console.log('檢測到 Cloudflare 挑戰，等待自動解決...');
 
-        // 等待挑戰完成
-        await page.waitForNavigation({
-          waitUntil: 'networkidle0',
-          timeout: 30000
-        }).catch(e => console.log('等待超時，可能已繞過或失敗'));
+        // 等待挑戰完成（通常需要 5-10 秒）
+        await page.waitForTimeout(10000);
+
+        // 檢查是否成功通過
+        await page.waitForSelector('body', { timeout: 30000 });
       }
 
       // 抓取頁面內容
