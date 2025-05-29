@@ -78,13 +78,23 @@ class BrowserManager {
       console.log(`創建新Page頁面: ${pageId}`);
       const page = await this.browser.newPage();
 
+      // 監控控制台消息以便調試
+      page.on('console', msg => console.log(`頁面日誌(${pageId}):`, msg.text()));
+
       // 設置隨機 User-Agent
       const userAgent = CONFIG.ROTATE_USER_AGENTS[Math.floor(Math.random() * CONFIG.ROTATE_USER_AGENTS.length)];
       await page.setUserAgent(userAgent);
       await page.setViewport({ width: 1280, height: 800 });
 
-      // 監控控制台消息以便調試
-      page.on('console', msg => console.log(`頁面日誌(${pageId}):`, msg.text()));
+      // 模仿人類行為
+      await page.evaluateOnNewDocument(() => {
+        // 隨機延遲模擬人類行為
+        const delay = Math.floor(Math.random() * 2000) + 1000; // 1-3秒
+        return new Promise(resolve => setTimeout(resolve, delay));
+      });
+      await page.mouse.move(Math.random(), Math.random());
+      await page.mouse.click(Math.random(), Math.random());
+
       // 訪問頁面
       await page.goto(url, {
         waitUntil: 'networkidle2',
@@ -110,7 +120,7 @@ class BrowserManager {
       this.pages.set(pageId, page);
       return page;
     } catch (e) {
-      console.log(`無法加載 cookies: ${e.message}`);
+      throw new Error(`無法創建或訪問頁面: ${e.message}`);
     }
   }
 
