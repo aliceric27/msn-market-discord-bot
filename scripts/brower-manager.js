@@ -120,7 +120,7 @@ class BrowserManager {
       }
 
       // 抓取頁面內容
-      console.log('當前頁面URL:', pageUrl);
+      console.log('當前頁面URL:', url);
       console.log('成功訪問頁面內容長度:', pageContent.length);
       this.pages.set(pageId, page);
       return page;
