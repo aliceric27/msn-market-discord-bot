@@ -39,6 +39,6 @@ module.exports = {
     const userId = interaction.user.id;
 
 
-    // 儲存在 key-value 資料庫中
+    // TODO: 儲存在 key-value 資料庫中
   }
 }
